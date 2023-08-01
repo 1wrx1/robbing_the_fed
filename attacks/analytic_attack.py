@@ -10,7 +10,7 @@ class AnalyticAttacker(_BaseAttacker):
 
     Only works for a torch.nn.Sequential model with input-sized FC layers."""
 
-    def __init__(self, model, loss_fn, cfg_attack, setup=dict(dtype=torch.float, device=torch.device("cpu"))):
+    def __init__(self, model, loss_fn, cfg_attack, setup=dict(dtype=torch.float, device=torch.device("cuda:0"))):
         super().__init__(model, loss_fn, cfg_attack, setup)
 
     def __repr__(self):
@@ -88,6 +88,8 @@ class ImprintAttacker(AnalyticAttacker):
             inputs = torch.nn.functional.interpolate(
                 inputs, size=self.data_shape[1:], mode="bicubic", align_corners=False
             )
+        inputs = inputs.to('cuda:0')
+        
         inputs = torch.max(torch.min(inputs, (1 - self.dm) / self.ds), -self.dm / self.ds)
 
         if len(labels) >= inputs.shape[0]:

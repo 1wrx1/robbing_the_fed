@@ -7,8 +7,8 @@ def plot_data(cfg, user_data, setup, scale=False, print_labels=False):
 
     dm = torch.as_tensor(cfg.mean, **setup)[None, :, None, None]
     ds = torch.as_tensor(cfg.std, **setup)[None, :, None, None]
-
     data = user_data["data"].clone().detach()
+    data = data.to('cuda:0')
     labels = user_data["labels"].clone().detach() if user_data["labels"] is not None else None
     classes = [] # If you want to get class labels, you need to fill this in. 
                  # e.g. for CIFAR-10, you want classes = ['Airplane', 'Automobile', ...]
@@ -44,11 +44,11 @@ def plot_data(cfg, user_data, setup, scale=False, print_labels=False):
             
 class data_cfg_default:
     size = (1_281_167,)
-    classes = 1000
-    shape = (3, 224, 224)
+    classes = 10
+    shape = (3, 32, 32)
     normalize = True
-    mean = (0.485, 0.456, 0.406)
-    std = (0.229, 0.224, 0.225)
+    mean = (0.4914, 0.4822, 0.4465)
+    std = (0.2023, 0.1994, 0.2010)
 
 
 class attack_cfg_default:

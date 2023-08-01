@@ -2,8 +2,7 @@
 import torch
 
 
-from .metrics import psnr_compute, registered_psnr_compute, image_identifiability_precision
-#cw_ssim - can uncomment if you want ...
+from .metrics import psnr_compute, registered_psnr_compute, image_identifiability_precision, cw_ssim #- can uncomment if you want ...
 
 
 import logging
